@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"Algorithms"},{"l":"All Packages","url":"allpackages-index.html"},{"l":"Coords"},{"l":"File_format"},{"l":"Game"},{"l":"Geom"},{"l":"GIS"},{"l":"GUI"},{"l":"SQL"},{"l":"Threads"},{"l":"Utils"}]
