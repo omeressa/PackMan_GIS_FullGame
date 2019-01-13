@@ -72,11 +72,21 @@ public class Player {
 		return "Player [player_point=" + player_point + ", speed=" + speed + ", radius=" + radius + "]";
 	}
 
+	/**
+	 * helping function
+	 * @param point
+	 * @return
+	 */
     public double angelToMove(Point3D point)
     {
         return MyCoords.azimuth_elevation_dist2(this.player_point, point)[0];
     }
 	
+    /**
+     * helping function
+     * @param num
+     * @return
+     */
 	public Point3D next_Point (double num) {
 		double tmp = num*Math.PI/180;
 		double x,y,a=100.0D;

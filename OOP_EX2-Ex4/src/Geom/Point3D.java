@@ -253,4 +253,22 @@ public final static int DOWN = 6, UP = 7;
 		_z = Double.parseDouble(string3);
 
 	}
+	public Point3D ConvertToCartesian() {
+
+
+		double Gps_x = Math.cos(_y/180*Math.PI) * Math.cos(_x/180*Math.PI)*(6371000+_z);;
+		double Gps_y = Math.sin(_y/180*Math.PI) * Math.cos(_x/180*Math.PI)*(6371000+_z);
+		double Gps_z = (6371000+_z)*Math.sin(_x/180*Math.PI);
+
+
+		return new Point3D(Gps_x,Gps_y,Gps_z);
+	}
+	public Point3D ConvertToGps() {		
+
+		double x=Math.asin(_z/6371000)*180/Math.PI;
+		double y=Math.atan2(_y, _x)*180/Math.PI;
+		double r =Math.sqrt(Math.pow(_x, 2)+Math.pow(_y, 2)+Math.pow(_z, 2))-6371000;
+		return new Point3D (x,y,r);
+		
+	}
 }

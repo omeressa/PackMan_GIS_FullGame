@@ -75,6 +75,12 @@ public class Box {
 		this.p4 = p4;
 	}
 
+	/**
+	 * boolean function to check the closer p
+	 * @param p
+	 * @param close_p
+	 * @return true or false
+	 */
 	public boolean checking (Point3D p, Point3D close_p) {
 		Point3D tmp  = new Point3D(p),ans;
 		while(coord.distance3d(tmp, close_p) >= 1) {
@@ -87,11 +93,21 @@ public class Box {
 		return false;
 	}
 
+	/**
+	 * adding another box
+	 * @return
+	 */
 	public Box add() {
 		return new Box(new Point3D(this.p1.x()-0.0010,this.p1.y()+0.0010),
 				new Point3D(this.p2.x()+0.0010,this.p2.y()-0.0010));
 	}
 
+	/**
+	 * point is inside or not
+	 * @param m
+	 * @param theClose
+	 * @return
+	 */
 	public double inside_box(Point3D m, Point3D theClose) {
 		double meter = 1;
 		Point3D Height_x_right = new Point3D(m.x(),p2.y());
@@ -124,6 +140,12 @@ public class Box {
 		return 5;
 	}
 
+	/**
+	 * next point
+	 * @param p1
+	 * @param f1
+	 * @return
+	 */
 	public  Point3D next_point(Point3D p1 , Point3D f1) {
 		double dt = 1000;
 		double x = p1.x()/dt;

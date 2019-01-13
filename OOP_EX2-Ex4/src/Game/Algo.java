@@ -18,7 +18,10 @@ public class Algo {
 	private Map map = new Map();
 	int verefie=0;
 
-
+/**
+ * constructor
+ * @param game
+ */
 	public Algo(Game game) {	
 
 		ArrayList<Fruit> tmp = new ArrayList<Fruit>(game.fruits.size());  for (Fruit item : game.fruits) tmp.add(item);
@@ -35,6 +38,12 @@ public class Algo {
 
 
 
+	/**
+	 * function that update the game
+	 * @param p2
+	 * @param d
+	 * @return
+	 */
 	public double update_Game(Player p2, double d) { 
 		Point3D theClose = close_fruit(p2,ans);
 		if(check_path(p2.getPlayer_point(),theClose)==false) {
@@ -56,7 +65,11 @@ public class Algo {
 		}
 	}
 
-
+/**
+ * boxs function
+ * @param boxs
+ * @return
+ */
 	private ArrayList<Box> box_list(ArrayList<Box> boxs) {
 		ArrayList<Box> answer = new ArrayList<>();
 		for (int i = 0; i < boxs.size(); i++) {
@@ -69,6 +82,7 @@ public class Algo {
 		return answer;
 	}
 
+	
 	private ArrayList<Point3D> add_to_list(ArrayList<Packman> Packmans,ArrayList<Fruit> fruits) {
 		ArrayList<Point3D> ans = new ArrayList<>();
 		for (int i = 0; i < fruits.size(); i++) {
@@ -79,6 +93,12 @@ public class Algo {
 	}
 
 
+	/**
+	 * close fruit to player
+	 * @param M
+	 * @param fruits_packs
+	 * @return
+	 */
 	public Point3D close_fruit(Player M,ArrayList<Point3D> fruits_packs) {
 		double fast_time = time_M_P(M,fruits_packs.get(0));
 		Point3D closer = fruits_packs.get(0);
@@ -94,6 +114,12 @@ public class Algo {
 	}
 
 
+	/**
+	 * count distance between player and a point
+	 * @param M
+	 * @param point
+	 * @return
+	 */
 	public double time_M_P(Player M , Point3D point) {
 		if (coord.distance3d(M.getPlayer_point(), point) < M.getRadius())
 			return 0;
@@ -166,17 +192,29 @@ public class Algo {
 		return false	;
 	}
 
-
+/**
+ * getter
+ * @return
+ */
 	public ArrayList<Box> getBoxs() {
 		return boxs;
 	}
-
+/**
+ * setter
+ * @param boxs
+ */
 	public void setBoxs(ArrayList<Box> boxs) {
 		this.boxs = boxs;
 	}
 
+	/**
+	 * help function
+	 * @param p1
+	 * @param f1
+	 * @return
+	 */
 	public  Point3D next_point(Point3D p1 , Point3D f1) {
-		double dt = 1000; 
+		double dt = 10000; 
 		double x = p1.x()/dt;
 		double y = p1.y()/dt;
 		return new Point3D(p1.x()+x*(f1.x()-p1.x()),p1.y()+y*(f1.y()-p1.y()));

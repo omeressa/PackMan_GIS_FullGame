@@ -48,7 +48,7 @@ public class MyFrame extends JFrame implements MouseListener , KeyListener {
 	int isGamer=0;
 	double num;
 
-	public BufferedImage image;
+	public java.awt.Image image;
 	public BufferedImage packman_image;
 	public BufferedImage fruits_image;
 	public BufferedImage ghost_image;
@@ -274,6 +274,14 @@ public class MyFrame extends JFrame implements MouseListener , KeyListener {
 				isGamer = 2;
 			}
 		});
+		//exit action
+		exit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+	
 
 		//csv file read action
 		read_csv_file.addActionListener(new ActionListener() {
@@ -305,16 +313,12 @@ public class MyFrame extends JFrame implements MouseListener , KeyListener {
 		});
 
 
-		//exit action
-		exit.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-			}
-		});
 	}
 
+	public void update(Graphics g){
 
+		paint(g);
+	}
 	public void paint(Graphics g) {
 		if(graph==null){
 			Image = createImage(5000,5000);
@@ -361,6 +365,120 @@ public class MyFrame extends JFrame implements MouseListener , KeyListener {
 		}
 		g.drawImage(Image, 0, 0, this);
 	}
+	
+		
+//		read_csv_file.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				JFileChooser fileChooser = new JFileChooser();
+//				fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+//				fileChooser.setDialogTitle("Select an Csv File");
+//				fileChooser.setAcceptAllFileFilterUsed(false);
+//				FileNameExtensionFilter filter = new FileNameExtensionFilter("csv","CSV");
+//				fileChooser.addChoosableFileFilter(filter);
+//
+//				int returnValue = fileChooser.showOpenDialog(null);
+//				if (returnValue == JFileChooser.APPROVE_OPTION) {
+//					System.out.println(fileChooser.getSelectedFile().getPath())	;
+//
+//					play = new Play(fileChooser.getSelectedFile().getPath());
+//
+//					try {
+//						game = new Game(play);
+//						one_playing=true;
+//					} catch (IOException e2) {
+//						// TODO Auto-generated catch block
+//						e2.printStackTrace();
+//					}
+//					isGamer = 4;
+//					game.setFile(fileChooser.getSelectedFile().getPath());
+//					repaint();
+//
+//				}
+//			}
+//		});
+//
+//
+//
+//	}
+//	public void update(Graphics g){
+//
+//		paint(g);
+//	}
+//	public void paint(Graphics g) {
+//
+//		if(graph==null){
+//			image = createImage(5000,5000);
+//			graph = image.getGraphics();
+//
+//		}
+//
+//
+//		graph.drawImage(image, 8,50, this.getWidth()-17, this.getHeight()-60,null);
+//
+//
+//		double x1 = 0;
+//		double y1 = 0 ;
+//		double x2 = 0;
+//		double y2 = 0 ;
+//
+//
+//		if (isGamer!=0) {
+//
+//			if(game.fruits.size() > 0) {
+//
+//				for (int j=0; j<game.boxs.size(); j++) {
+//
+//					x1=(game.boxs.get(j).getP1().x()*getWidth());
+//					y1=(game.boxs.get(j).getP1().y()*getHeight());
+//					x2=(game.boxs.get(j).getP2().x()*getWidth());
+//					y2=(game.boxs.get(j).getP2().y()*getHeight());	
+//					double width = x2-x1;
+//					double height = y2-y1;
+//					graph.drawImage(box_image, (int)x1,(int) y1,(int)width, (int)height, null);
+//
+//				}
+//				for (int i=0; i<game.fruits.size(); i++) 	{
+//					x1=(int)(game.fruits.get(i).getGps_point().x()*getWidth());
+//					y1=(int)(game.fruits.get(i).getGps_point().y()*getHeight());	
+//
+//					graph.drawImage(fruits_image, (int)x1, (int)y1,20, 20, null);
+//				}
+//
+//			}
+//
+//			for (int j=0; j<game.packmans.size(); j++) {
+//
+//				x1=(game.packmans.get(j).getPackman().x()*getWidth());
+//				y1=(game.packmans.get(j).getPackman().y()*getHeight());	
+//
+//
+//				graph.drawImage(packman_image, (int)x1,(int) y1,20, 20, null);
+//
+//			}
+//
+//			for (int j=0; j<game.Ghosts.size(); j++) {
+//				x1=(game.Ghosts.get(j).getPoint().x()*getWidth());
+//				y1=(game.Ghosts.get(j).getPoint().y()*getHeight());	
+//
+//				graph.drawImage(ghost_image, (int)x1,(int) y1,20, 20, null);
+//
+//			}
+//			// probleme Player icon 
+//			if(game.player!=null){
+//				x1=(game.player.getPlayer_point().x()*getWidth());
+//				y1=(game.player.getPlayer_point().y()*getHeight());	
+//
+//				//dbg.drawImage(player,(int)x1,(int) y1,30, 30,null);
+//				graph.setColor(Color.cyan);
+//				graph.fillOval((int)x1,(int) y1, 10, 10);
+//			}
+//		}
+//
+//		g.drawImage(image, 0, 0, this);
+//
+//	}
+	
 
 
 	@Override

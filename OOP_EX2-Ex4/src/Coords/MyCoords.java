@@ -34,38 +34,40 @@ public class MyCoords implements coords_converter{
 	@Override
 	public double distance3d(Point3D gps0, Point3D gps1) {
 
-		Point3D p= vector3D(gps0,gps1);
-		return Math.sqrt(p.x()*p.x()+ p.y()*p.y());
+
+		Point3D gps0Change = gps0.ConvertToCartesian();
+		Point3D gps1Change = gps1.ConvertToCartesian();
+		
+		return Math.abs(gps0Change.distance3D(gps1Change));
+
 	}
 	
 	/** computes the 3D vector (in meters) between two gps like points */
 	@Override
 	public Point3D vector3D(Point3D gps0, Point3D gps1) {
 		
-		double ln = Math.cos(Math.toRadians(gps0.x()));
-		double x= radios*Math.sin(Math.toRadians((gps1.x()-gps0.x())));
-		double y= ln*radios*Math.sin(Math.toRadians((gps1.y()-gps0.y())));
-		double z= gps1.z()-gps0.z();
-		Point3D ans = new Point3D(x,y,z); 
-		return ans;
+		
+		Point3D gps0ToMeters = gps0.ConvertToCartesian();
+		Point3D gps1ToMeters = gps1.ConvertToCartesian();
+		
+		double m_x = gps1ToMeters.x()-gps0ToMeters.x();
+		double m_y = gps1ToMeters.y()-gps0ToMeters.y();
+		double m_z = gps1ToMeters.z()-gps0ToMeters.z();
+		
+		Point3D ans = new Point3D(m_x,m_y,m_z); 
+
+		return ans.ConvertToGps();
 	}
 	/** computes the polar representation of the 3D vector be gps0-->gps1 
 	 * Note: this method should return an azimuth (aka yaw), elevation (pitch), and distance*/
 	@Override
 	public double[] azimuth_elevation_dist(Point3D gps0, Point3D gps1) {
-		double dist = distance3d(gps0,gps1);
-		double elevation = (180/PI)*((gps1.z()-gps0.z())/dist-dist/(2*radios));
-		double delta= gps1.y()-gps0.y();
-		double azimuth = Math.toDegrees(Math.atan2(Math.sin(Math.toRadians(delta))
-				*Math.cos(Math.toRadians(gps1.x())),
-				(Math.cos(Math.toRadians(gps0.x()))
-				*Math.sin(Math.toRadians(gps1.x())))
-				-Math.sin(Math.toRadians(gps0.x()))
-				*Math.cos(Math.toRadians(gps1.x()))
-				*Math.cos(Math.toRadians(delta))));
-		if (azimuth<0) azimuth+=360;
-		double[] Polar = {azimuth,elevation,dist};
-		return Polar;
+		double[] ans = new double[3];
+		ans[0] = gps1.north_angle(gps0);
+		ans[1] = Math.toDegrees(Math.asin((gps0.z()-gps1.z())/(distance3d(gps0 , gps1))));
+		ans[2] = distance3d(gps1, gps0);
+
+		return ans;
 	}
 	
     public static double[] azimuth_elevation_dist2(Point3D gps0, Point3D gps1)
