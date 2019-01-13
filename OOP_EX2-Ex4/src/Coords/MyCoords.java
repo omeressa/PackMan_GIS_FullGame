@@ -67,6 +67,55 @@ public class MyCoords implements coords_converter{
 		double[] Polar = {azimuth,elevation,dist};
 		return Polar;
 	}
+	
+    public static double[] azimuth_elevation_dist2(Point3D gps0, Point3D gps1)
+    {
+        // Building array [YAW, PITCH, DISTANCE]
+        double[] yaw_pitch_dist = new double[3];
+        // Calculating the yaw:
+        double lat0_radian = Math.toRadians(gps0.x());
+        double lat1_radian = Math.toRadians(gps1.x());
+        double diff_lon_radian = Math.toRadians((gps1.y() - gps0.y()));
+        double num = Math.sin(diff_lon_radian) * Math.cos(lat1_radian);
+        double den =
+                (Math.cos(lat0_radian) * Math.sin(lat1_radian)) - (Math.sin(lat0_radian) * Math.cos(lat1_radian) * Math.cos(diff_lon_radian));
+        double bearing_radian = Math.atan2(num, den);
+        double bearing_degree = Math.toDegrees(bearing_radian);
+        yaw_pitch_dist[0] = (bearing_degree + 360) % 360;
+        // Calculating the distance:
+        yaw_pitch_dist[2] = distance3d2(gps0, gps1);
+        // Calculating the pitch:
+        yaw_pitch_dist[1] = Math.toDegrees(Math.asin((gps1.z() - gps0.z()) / yaw_pitch_dist[2]));
+        return yaw_pitch_dist;
+    }
+	public static double distance3d2(Point3D gps0, Point3D gps1) {
+
+		Point3D p= vector3D2(gps0,gps1);
+		return Math.sqrt(p.x()*p.x()+ p.y()*p.y());
+	}
+	public static Point3D vector3D2(Point3D gps0, Point3D gps1) {
+		
+		double ln = Math.cos(Math.toRadians(gps0.x()));
+		double x= radios*Math.sin(Math.toRadians((gps1.x()-gps0.x())));
+		double y= ln*radios*Math.sin(Math.toRadians((gps1.y()-gps0.y())));
+		double z= gps1.z()-gps0.z();
+		Point3D ans = new Point3D(x,y,z); 
+		return ans;
+	}
+	
+	////////////
+	public double myDir(Point3D gps0, Point3D gps1) {
+		double[] ans = new double[3];
+		ans[0] = gps1.north_angle(gps0);
+		double resulte =covertDeg(ans[0]);
+		return resulte;
+	}
+	
+	public double covertDeg(double num) {
+		if( num >= 0 && num <=90 ) return 90-num;
+		else return 450-num;
+	}
+	////////////////
 	/**
 	 * return true iff this point is a valid lat, lon , lat coordinate: [-180,+180],[-90,+90],[-450, +inf]
 	 * @param p
