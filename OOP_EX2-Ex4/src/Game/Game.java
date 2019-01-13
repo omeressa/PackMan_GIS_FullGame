@@ -9,6 +9,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import Robot.Play;
+
 
 import Geom.Point3D;
 
@@ -16,21 +18,55 @@ public class Game {
 
 	public  ArrayList<Packman> packmans = new ArrayList<>();
 	public  ArrayList<Fruit> fruits = new ArrayList<>();
+	public  ArrayList<Box> boxs = new ArrayList<>();
+	public  ArrayList<Ghost> Ghosts = new ArrayList<>();
+
+	public Player player;
+	public Play play;
 
 	public Map map = new Map();
 	public 	String file;
 
 
 	public Game() {};
+	
+	
 
 	/**
-	 * Constructor
-	 * @param packmans packmen
-	 * @param fruits fruits
+	 * @return the player
 	 */
-	public Game(ArrayList<Packman> packmans , ArrayList<Fruit> fruits) {
+	public Player getPlayer() {
+		return player;
+	}
+
+
+
+	/**
+	 * @param player the player to set
+	 */
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+
+
+
+	/**
+	 * 
+	 * @param packmans
+	 * @param fruits
+	 * @param box
+	 * @param ghost
+	 */
+	public Game(ArrayList<Packman> packmans , ArrayList<Fruit> fruits,ArrayList<Box> box,ArrayList<Ghost> ghost) {
 		this.packmans = packmans;
 		this.fruits = fruits;
+		this.boxs=box;
+		this.Ghosts=ghost;
+	}
+	
+	public Game(Play play) throws IOException {
+		this.play = play;
+		Create_Game(play.getBoard());
 	}
 
 
@@ -241,7 +277,54 @@ public class Game {
 		pw.write(String.join("\n", kml));
 		pw.close();		
 	}
-
+	
+	
+	public void Create_Game(ArrayList<String> board) throws IOException{		
+		ArrayList<String> tmp = board;
+		packmans=new ArrayList<>();
+		fruits=new  ArrayList<>();
+		Ghosts=new ArrayList<>();
+		this.boxs=new ArrayList<>();
+		for(int i=0;i<tmp.size();i++) {
+			String line = tmp.get(i);
+			String[] row = line.split(",");
+			if(row[0].equals("P")) {
+				Point3D p = new Point3D(row[2],row[3],row[4]);
+				p = map.Gps2Pixel(p);
+				double speed = Double.parseDouble(row[5]);
+				double radius = Double.parseDouble(row[6]);
+				packmans.add(new Packman(p, speed, radius));	
+			}
+			if(row[0].equals("F")) {
+				Point3D p = new Point3D(row[2],row[3],row[4]);
+				p = map.Gps2Pixel(p);
+				double Weight = Double.parseDouble(row[5]);
+				fruits.add(new Fruit(p, Weight));
+			}
+			if(row[0].equals("B")) {
+				Point3D p1 = new Point3D(row[2],row[3],row[4]);
+				Point3D p2 = new Point3D(row[5],row[6],row[7]);
+				p1 = map.Gps2Pixel(p1);
+				p2 = map.Gps2Pixel(p2);
+				boxs.add(new Box(p1,p2));
+			}
+			if(row[0].equals("G")) {
+				Point3D p = new Point3D(row[2],row[3],row[4]);
+				p = map.Gps2Pixel(p);
+				double speed = Double.parseDouble(row[5]);
+				double radius = Double.parseDouble(row[6]);
+				Ghosts.add(new Ghost(p, speed, radius));	
+			}
+			if(row[0].equals("M")) {
+				Point3D p = new Point3D(row[2],row[3],row[4]);
+				p = map.Gps2Pixel(p);
+				double speed = Double.parseDouble(row[5]);
+				double radius = Double.parseDouble(row[6]);
+				player = new Player(p, speed, radius);
+			}
+		}
+	}
+	
 	/**
 	 * @return the file
 	 */
