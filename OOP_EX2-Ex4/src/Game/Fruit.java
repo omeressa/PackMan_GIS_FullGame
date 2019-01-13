@@ -11,14 +11,14 @@ import Geom.Point3D;
 public class Fruit {
 	
 	Point3D gps_point;
-	int weight;
+	double weight;
 	
 	/**
 	 * Constructor
 	 * @param gps_point mark the place fruit is on
 	 * @param weight weight of the fruit
 	 */
-	public Fruit(Point3D gps_point, int weight) {
+	public Fruit(Point3D gps_point, double weight) {
 		super();
 		this.gps_point = gps_point;
 		this.weight = weight;
@@ -46,7 +46,7 @@ public class Fruit {
 	 * getter
 	 * @return fruit weight
 	 */
-	public int getWeight() {
+	public double getWeight() {
 		return weight;
 	}
 
