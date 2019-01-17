@@ -364,50 +364,43 @@ public class MyFrame extends JFrame implements MouseListener , KeyListener {
 
 
 	@Override
-//	public void mouseClicked(MouseEvent arg) {
-//		double x_temp=arg.getX();
-//		x_temp=x_temp/getWidth();
-//		double y_temp=arg.getY();
-//		y_temp=y_temp/getHeight();
-//		Point3D point_return=new Point3D(x_temp, y_temp, 0);
-//		Point3D covertedfromPixel = map.Pixel2Gps(x_temp, y_temp);
-//		if(click == true) {
-//			Point3D playerConert = map.Pixel2Gps(game.player.getPlayer_point().x(), game.player.getPlayer_point().y());
-//			double finalnum = coord.myDir(covertedfromPixel,playerConert);
-//			System.out.println(finalnum);
-//			num = finalnum;
-//			play.rotate(num);
-//		}
-//		if (isGamer==(1)){	
-//			game.fruits.add(new Fruit(point_return,1));
-//			System.out.println("Fruit "+covertedfromPixel.toString());
-//			repaint();
-//		}else if (isGamer==(-1)) {
-//			game.packmans.add(new Packman(point_return, radius, speed));
-//			System.out.println("Packman "+covertedfromPixel.toString());
-//			repaint();
-//		}else if(isGamer==3) {
-//			game.Ghosts.add(new Ghost(point_return, radius, speed));
-//			System.out.println("Ghost "+covertedfromPixel.toString());
-//			repaint();
-//		}else if(isGamer==2) {
-//			game.player=new Player(point_return, speed,radius);
-//			System.out.println("Player "+covertedfromPixel.toString());
-//			if(one_playing==true)
-//			{play.setInitLocation(covertedfromPixel.x(), covertedfromPixel.y());
-//			verefie_player=true;
-//			repaint();
-//			}
-//		}
-//	}       
+	public void mouseClicked(MouseEvent arg) {
+		double x_temp=arg.getX();
+		x_temp=x_temp/getWidth();
+		double y_temp=arg.getY();
+		y_temp=y_temp/getHeight();
+		Point3D point_return=new Point3D(x_temp, y_temp, 0);
+		Point3D covertedfromPixel = map.Pixel2Gps(x_temp, y_temp);
+		if(click == true) {
+			Point3D playerConert = map.Pixel2Gps(game.player.getPlayer_point().x(), game.player.getPlayer_point().y());
+			double finalnum = coord.myDir(covertedfromPixel,playerConert);
+			System.out.println(finalnum);
+			num = finalnum;
+			play.rotate(num);
+		}
+		if (isGamer==(1)){	
+			game.fruits.add(new Fruit(point_return,1));
+			System.out.println("Fruit "+covertedfromPixel.toString());
+			repaint();
+		}else if (isGamer==(-1)) {
+			game.packmans.add(new Packman(point_return, radius, speed));
+			System.out.println("Packman "+covertedfromPixel.toString());
+			repaint();
+		}else if(isGamer==3) {
+			game.Ghosts.add(new Ghost(point_return, radius, speed));
+			System.out.println("Ghost "+covertedfromPixel.toString());
+			repaint();
+		}else if(isGamer==2) {
+			game.player=new Player(point_return, speed,radius);
+			System.out.println("Player "+covertedfromPixel.toString());
+			if(one_playing==true)
+			{play.setInitLocation(covertedfromPixel.x(), covertedfromPixel.y());
+			verefie_player=true;
+			repaint();
+			}
+		}
+	}       
 
-    public void mouseClicked(MouseEvent e)
-    {
-        Point3D clickLocation = new Point3D(e.getX(), e.getY(), 0);
-        Point3D p = pointBeforeResize(clickLocation);
-        Point3D inGPS = map.Pixel2Gps(p.x(),p.y());
-        double angle = game.getPlayer().angelToMove(inGPS);
-    }
 	
     public Point3D pointBeforeResize(Point3D p)
     {
